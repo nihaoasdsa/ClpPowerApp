@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 //主页面
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListView lv;
     private ClpPowerAllInforAdapter allInforAdapter;
     private List<Bean> list;
