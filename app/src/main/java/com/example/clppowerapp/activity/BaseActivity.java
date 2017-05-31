@@ -22,9 +22,10 @@ public class BaseActivity  extends FragmentActivity{
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.button_back);//通知栏所需颜色
+            tintManager.setStatusBarTintResource(R.color.top_notice_bg);//通知栏所需颜色
         }
     }
+    //下面是设置通知栏的状态
     private void setTranslucentStatus(boolean on) {
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();

@@ -8,11 +8,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.adapter.ClpPowerAllInforAdapter;
 import com.example.clppowerapp.bean.Bean;
+import com.example.clppowerapp.view.HeaderBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +30,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_add;//增加
     private TextView btn_select_all;
    private Button cb_all;
+    private HeaderBar headerView;
+    private PopupWindow popupWindow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initdata();
     }
+    //初始化数据信息
     private void initdata() {
         list = new ArrayList<>();
+        headerView = (HeaderBar) findViewById(R.id.header);
+        headerView.setTitle("电力数据采集");
+        headerView.disappear();
         lv = (ListView) findViewById(R.id.lv_infor);
         ll_add = (LinearLayout) findViewById(R.id.ll_add);
         ll_detele = (LinearLayout) findViewById(R.id.ll_detele);
@@ -70,6 +78,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
+    private void PopWindowData(){
+
+    }
+
+
+
+    //监听事件
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -115,8 +130,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         allInforAdapter.removeData(position);
                     }
                 }
-//                btn_select_all.setText("全选");
-//                btn_select_all.setTextColor(Color.WHITE);
                 allInforAdapter.notifyDataSetChanged();
                 break;
 

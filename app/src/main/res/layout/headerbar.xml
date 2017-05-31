@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="44dp"
-    android:background="#C4F8F0"
+    android:background="@color/top_notice_bg"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -30,7 +30,7 @@
             android:padding="12dp"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:src="@drawable/edition5_arrows_open"
+            android:src="@mipmap/edition5_arrows_open"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/headbar_selectadd_title"
             android:visibility="gone"/>
@@ -41,7 +41,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="4dp"
             android:padding="10dp"
-            android:src="@drawable/navi_back"
+            android:src="@mipmap/navi_back"
             android:visibility="gone" />
 
 
@@ -52,7 +52,7 @@
             android:padding="12dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@drawable/edition5_return"
+            android:src="@mipmap/edition5_return"
             android:visibility="visible"/>
 
         <TextView
@@ -84,7 +84,7 @@
                 android:onClick="onClick"
                 android:scaleType="fitXY"
                 android:padding="9dp"
-                android:src="@drawable/edition5_map"
+                android:src="@mipmap/edition5_map"
                 android:visibility="invisible" />
 
             <TextView

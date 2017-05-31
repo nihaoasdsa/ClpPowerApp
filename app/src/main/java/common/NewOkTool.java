@@ -133,8 +133,7 @@
 //        final String jsonStr = mGson.toJson(map);
 //        //接口回调错误信息
 //
-//        LogUtil.d("*********"+url+"**********"+jsonStr);
-//
+//   Log.e("接口回调错误信息","---"+url+"**********"+jsonStr);
 //
 //        RequestBody requestBody = RequestBody.create(JSON, jsonStr);
 //        Request request = new Request.Builder().url(url)
@@ -225,9 +224,9 @@
 //    }
 //
 //
-//    *
+//   /* *
 //     * 调用接口，无返回状态判断
-//
+//    **/
 //    @Override
 //    public <T> void startRequestNoSuccess(Context context, final Boolean isShowLoading, final String url, Map<String, String> map, final Class<T> tClass, final NewCallBack<T> callBack) {
 //
@@ -310,16 +309,16 @@
 //        });
 //    }
 //
-//    *
-//     * get 请求 有返回值判断
-//     * @param context
-//     * @param isShowLoading
-//     * @param url
-//     * @param map
-//     * @param tClass
-//     * @param callBack
-//     * @param <T>
-//
+//  /**
+//   *  * get 请求 有返回值判断
+//   * @param context
+//   * @param isShowLoading
+//   * @param url
+//   * @param map
+//   * @param tClass
+//   * @param callBack
+//   * @param <T>
+//   * **/
 //    @Override
 //    public <T> void startGetRequest(Context context, final Boolean isShowLoading, final String url, Map map, final Class<T> tClass, final NewCallBack<T> callBack) {
 //

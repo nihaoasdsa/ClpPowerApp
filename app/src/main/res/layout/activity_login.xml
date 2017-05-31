@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_42"
-            android:background="@drawable/edit_bg" >
+            android:background="@mipmap/edit_bg" >
 
             <ImageView
                 android:id="@+id/zhanghao"
@@ -30,7 +30,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_14"
-                android:src="@drawable/icon_account" />
+                android:src="@mipmap/icon_account" />
 
             <TextView
                 android:id="@+id/phone_num"
@@ -63,7 +63,7 @@
                 android:layout_marginTop="@dimen/dp_14"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_20"
-                android:background="@drawable/clean_edit_pic" />
+                android:background="@mipmap/clean_edit_pic" />
         </RelativeLayout>
 
         <View
@@ -76,7 +76,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_42"
-            android:background="@drawable/edit_bg" >
+            android:background="@mipmap/edit_bg" >
 
             <ImageView
                 android:id="@+id/mima"
@@ -85,7 +85,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_14"
-                android:src="@drawable/icon_pwd" />
+                android:src="@mipmap/icon_pwd" />
             <TextView
                 android:id="@+id/tv_code"
                 android:layout_width="wrap_content"
@@ -117,24 +117,26 @@
                 android:layout_marginTop="@dimen/dp_14"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/dp_20"
-                android:background="@drawable/clean_edit_pic" />
+                android:background="@mipmap/clean_edit_pic" />
         </RelativeLayout>
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/dp_10" >-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10" >
+            <!-- 登录button -->
+            <CheckBox
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_7"
+                android:id="@+id/cb_mima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:text="记住密码"
+                android:textColor="@color/text_head" />
 
-            <!--<TextView-->
-                <!--android:id="@+id/forgetPW"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:text="忘记密码"-->
-                <!--android:textColor="@color/forgetpwd_colour" />-->
-        <!--</RelativeLayout>-->
+        </RelativeLayout>
 
         <Button
             android:id="@+id/login_land"
