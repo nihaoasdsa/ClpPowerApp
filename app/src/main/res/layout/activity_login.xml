@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.clppowerapp.activity.LoginActivity">
+    <com.example.clppowerapp.view.HeaderBar
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <LinearLayout
+        android:id="@+id/login_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
+    <AutoCompleteTextView
+        android:id="@+id/login_et_account"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="@drawable/brace"
+        android:drawableLeft="@drawable/icon_account"
+        android:drawablePadding="5dp"
+        android:hint="用户名"
+        android:inputType="text"
+        android:maxLines="1"
+        android:nextFocusForward="@+id/login_et_pwd"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textSize="20sp">
+
+        <requestFocus
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </AutoCompleteTextView>
+
+    <EditText
+        android:id="@+id/login_et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/brace"
+        android:drawableLeft="@drawable/icon_pwd"
+        android:drawablePadding="5dp"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:onClick="onClick"
+        android:padding="5dp"
+        android:paddingTop="10dp"
+        android:singleLine="true"
+        android:textSize="20sp"></EditText>
+
+    <Button
+        android:id="@+id/login_btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shap_bg_radius_theme1"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
+    </LinearLayout>
+</LinearLayout>

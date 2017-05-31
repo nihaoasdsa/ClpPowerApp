@@ -9,11 +9,12 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
        <Button
-           android:background="@drawable/checked_selector"
+           android:background="@mipmap/check_false"
            android:id="@+id/cb_all"
-           android:layout_width="@dimen/dp_40"
-           android:layout_height="@dimen/dp_40" />
+           android:layout_width="@dimen/dp_25"
+           android:layout_height="@dimen/dp_25" />
       <TextView
+          android:id="@+id/btn_select_all"
           android:textColor="@color/result_view"
           android:textSize="@dimen/dp_15"
           android:layout_marginLeft="@dimen/dp_5"
@@ -40,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50">
         <LinearLayout
+            android:id="@+id/ll_add"
             android:layout_marginLeft="@dimen/dp_5"
             android:background="@color/clo_itembar"
             android:layout_weight="0.40"
@@ -53,7 +55,7 @@
                     android:layout_height="@dimen/dp_20" />
                 <TextView
                     android:layout_marginLeft="@dimen/dp_10"
-                   android:textColor="@color/white"
+                    android:textColor="@color/white"
                     android:text="新增"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -64,6 +66,7 @@
             android:layout_height="wrap_content">
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_detele"
             android:background="@color/color_spec"
             android:layout_weight="0.40"
             android:gravity="center"
