@@ -1,4 +1,4 @@
-package com.example.clppowerapp.utils;
+package com.example.clppowerapp.ClpPowerutils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

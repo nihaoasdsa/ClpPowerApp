@@ -1,4 +1,4 @@
-package com.example.clppowerapp.utils;
+package com.example.clppowerapp.ClpPowerutils;
 
 /**
  * Created by 008 on 2017/5/31 0031.

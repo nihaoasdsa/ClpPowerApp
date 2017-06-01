@@ -1,9 +1,16 @@
 package com.example.clppowerapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -78,10 +85,45 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
-    private void PopWindowData(){
+    private void PopWindowData(Context context, View view){
+        if (popupWindow==null) {
+            //得到LayoutInflater对象
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View vpopwindow = inflater.inflate(R.layout.popwindow_layout, null, false);
 
+            popupWindow = new PopupWindow(vpopwindow, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popupWindow.setBackgroundDrawable(cd);
+        //设置popwindow的背景颜色
+   WindowManager.LayoutParams lp =getWindow().getAttributes();
+        lp.alpha=0.4f;//0~1的数值
+        getWindow().setAttributes(lp);
+        //点击空白处时，隐藏掉pop窗口
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.showAtLocation((View)view.getParent(), Gravity.CENTER, 0, 0);
+        popupWindow.update();
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener(){
+
+            //在dismiss中恢复透明度
+            public void onDismiss(){
+                WindowManager.LayoutParams lp=getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
     }
-
+    /**
+     * 设置添加屏幕的背景透明度
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
 
 
     //监听事件
@@ -93,6 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             //    allInforAdapter.addData(new Bean("新增数据"));
                 // 通知刷新适配器
              //   allInforAdapter.notifyDataSetChanged();
+                PopWindowData(MainActivity.this,v);
                 break;
             // 全选数据
             case R.id.btn_select_all:
