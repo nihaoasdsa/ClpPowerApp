@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,10 +14,17 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.clppowerapp.R;
+import com.android.volley.VolleyError;
+
 import com.example.clppowerapp.ClpPowerutils.InputTextCheck;
 import com.example.clppowerapp.ClpPowerutils.PowerConstants;
+import com.example.clppowerapp.R;
 import com.example.clppowerapp.view.HeaderBar;
+import com.example.clppowerapp.view.VolleyListenerInterface;
+import com.example.clppowerapp.view.VolleyRequestUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 //登录页面，jiangpan
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -114,9 +122,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         }
     };
-
-
-
     private void doLogin() {
         accountname = et_accountname.getText().toString().trim();
         pwd = et_pwd.getText().toString().trim();
@@ -139,7 +144,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                    }
                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                   startActivity(intent);
+                  startActivity(intent);
+                   LoginRes();
                }else {
                    //空状态判断
               if (InputTextCheck.isEmpty(accountname)){
@@ -158,4 +164,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             break;
         }
     }
+
+  private void LoginRes(){
+      String url="http://192.168.1.112:9000/Login/index";
+      Map<String,String> map=new HashMap<>();
+     VolleyRequestUtil.RequestPost(this, url, "dsss", map, new VolleyListenerInterface(LoginActivity.this,VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
+     @Override
+     public void onMySuccess(String result) {
+         Log.e("resss", "onMySuccess: "+result );
+     }
+
+     @Override
+     public void onMyError(VolleyError error) {
+
+     }
+ });
+
+
+
+  }
+
+
+
 }

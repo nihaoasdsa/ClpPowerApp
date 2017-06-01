@@ -62,9 +62,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // 默认显示的数据
         List<Bean> list = new ArrayList<Bean>();
         list.add(new Bean("新数据1"));
-        list.add(new Bean("新数据1"));
-        list.add(new Bean("新数据1"));
-        list.add(new Bean("新数据1"));
+        list.add(new Bean("新数据2"));
+        list.add(new Bean("新数据3"));
+        list.add(new Bean("新数据4"));
         allInforAdapter = new ClpPowerAllInforAdapter(this);
         allInforAdapter.setData(list);
         lv.setAdapter(allInforAdapter);

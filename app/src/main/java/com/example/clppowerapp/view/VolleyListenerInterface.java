@@ -1,4 +1,4 @@
-package com.example.clppowerapp.common;
+package com.example.clppowerapp.view;
 
 import android.content.Context;
 
