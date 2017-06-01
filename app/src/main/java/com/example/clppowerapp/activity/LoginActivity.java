@@ -147,17 +147,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                    startActivity(intent);
                }else {
-//                   //空状态判断
-//              if (InputTextCheck.isEmpty(accountname)){
-//                  Toast.makeText(LoginActivity.this, PowerConstants.Per_NOT_NULL, Toast.LENGTH_LONG).show();
-//
-//                  //用户名
-//              }else if (InputTextCheck.isEmpty(pwd)){
-//                  Toast.makeText(LoginActivity.this, PowerConstants.PASS_WORD, Toast.LENGTH_LONG).show();
-// }
-//               else {
-//
-//              }
+                   //空状态判断
+              if (InputTextCheck.isEmpty(accountname)){
+                  Toast.makeText(LoginActivity.this, PowerConstants.Per_NOT_NULL, Toast.LENGTH_LONG).show();
+
+                  //用户名
+              }else if (InputTextCheck.isEmpty(pwd)){
+                  Toast.makeText(LoginActivity.this, PowerConstants.PASS_WORD, Toast.LENGTH_LONG).show();
+ }
+               else {
+
+              }
 
                }
 

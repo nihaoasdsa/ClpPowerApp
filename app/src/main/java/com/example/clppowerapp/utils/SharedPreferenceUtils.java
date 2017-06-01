@@ -73,6 +73,6 @@ public class SharedPreferenceUtils {
      */
 
     public static boolean getSharePreenceKeybyboolean(Context context,String str, boolean key){
-        return getShared(context).getBoolean(String.valueOf(key),false);
+        return getShared(context).getBoolean(str,false);
     }
 }
