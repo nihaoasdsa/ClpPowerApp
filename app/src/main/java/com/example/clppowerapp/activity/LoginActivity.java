@@ -19,9 +19,14 @@ import com.android.volley.VolleyError;
 import com.example.clppowerapp.ClpPowerutils.InputTextCheck;
 import com.example.clppowerapp.ClpPowerutils.PowerConstants;
 import com.example.clppowerapp.R;
+import com.example.clppowerapp.bean.Bean;
 import com.example.clppowerapp.view.HeaderBar;
 import com.example.clppowerapp.view.VolleyListenerInterface;
 import com.example.clppowerapp.view.VolleyRequestUtil;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -156,9 +161,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                   Toast.makeText(LoginActivity.this, PowerConstants.PASS_WORD, Toast.LENGTH_LONG).show();
  }
                else {
-
               }
-
                }
 
             break;
@@ -167,10 +170,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
   private void LoginRes(){
       String url="http://192.168.1.112:9000/Login/index";
       Map<String,String> map=new HashMap<>();
+
      VolleyRequestUtil.RequestPost(this, url, "dsss", map, new VolleyListenerInterface(LoginActivity.this,VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
      @Override
      public void onMySuccess(String result) {
          Log.e("resss", "onMySuccess: "+result );
+         try {
+             JSONObject object=new JSONObject(result);
+             if (object.getString("code").equals("0")){
+                 Gson gson=new Gson();
+                 Bean bean=gson.fromJson(result,Bean.class);
+             }
+         } catch (JSONException e) {
+             e.printStackTrace();
+         }
      }
 
      @Override

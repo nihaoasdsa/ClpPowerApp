@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.adapter.ClpPowerAllInforAdapter;
 import com.example.clppowerapp.bean.Bean;
+import com.example.clppowerapp.common.MyDialog;
 import com.example.clppowerapp.view.HeaderBar;
 
 import java.util.ArrayList;
@@ -132,9 +133,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             // 添加数据
             case R.id.ll_add:
-            //    allInforAdapter.addData(new Bean("新增数据"));
-                // 通知刷新适配器
-             //   allInforAdapter.notifyDataSetChanged();
                 PopWindowData(MainActivity.this,v);
                 break;
             // 全选数据
@@ -159,23 +157,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             // 删除数据
             case R.id.ll_detele:
                 // 拿到所有数据
-                Map<Integer, Boolean> isCheck_delete = allInforAdapter.getMap();
-                // 获取到条目数量，map.size = list.size,所以
-                int count = allInforAdapter.getCount();
-                // 遍历
-                for (int i = 0; i < count; i++) {
-                    // 删除有两个map和list都要删除 ,计算方式
-                    int position = i - (count - allInforAdapter.getCount());
-                    // 判断状态 true为删除
-                    if (isCheck_delete.get(i) != null && isCheck_delete.get(i)) {
-                        // listview删除数据
-                        isCheck_delete.remove(i);
-                        allInforAdapter.removeData(position);
+                final Map<Integer, Boolean> isCheck_delete = allInforAdapter.getMap();
+
+                Log.e("数据1",allInforAdapter.getMap()+"---------");
+                    // 获取到条目数量，map.size = list.size,所以
+                    int count = allInforAdapter.getCount();
+                    // 遍历
+                    for (int i = 0; i < count; i++) {
+
+
+                        // 删除有两个map和list都要删除 ,计算方式
+                        int position = i - (count - allInforAdapter.getCount());
+                        // 判断状态 true为删除
+                        if (isCheck_delete.get(i) != null && isCheck_delete.get(i)) {
+                            Log.e("数据",i+"---------");
+                            Log.e("数据",position+"---------");
+//                            new   MyDialog(MainActivity.this, "请选择要删除任务工程项", "取消", "确定", new MyDialog.DialogBtnClickListener() {
+//                        @Override
+//                        public void LeftBtnOnClick(View v) {
+//
+//                        }
+//                        @Override
+//                        public void RightBtnOnClick(View v) {
+//                        }
+//
+//
+//                    }).show();
+                            // listview删除数据
+                        //    isCheck_delete.remove(i);
+                         //   allInforAdapter.removeData(position);
+                        }
                     }
-                }
-                allInforAdapter.notifyDataSetChanged();
+                    allInforAdapter.notifyDataSetChanged();
+
+
                 break;
 
         }
+    }
+    //删除选择的数据
+    private void Delete(){
+
+
+
     }
 }
