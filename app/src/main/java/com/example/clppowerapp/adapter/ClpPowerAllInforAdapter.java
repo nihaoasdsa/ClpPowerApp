@@ -1,6 +1,7 @@
 package com.example.clppowerapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +103,8 @@ public class ClpPowerAllInforAdapter extends BaseAdapter {
                                                  boolean isChecked) {
                         // 用map集合保存
                         isCheck.put(position, isChecked);
+                      //  if ()
+                        Log.e("数据1",position+"---------");
                     }
                 });
         // 设置状态

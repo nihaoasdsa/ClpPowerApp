@@ -125,16 +125,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
-    /**
-     * 设置添加屏幕的背景透明度
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha)
-    {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
-    }
 
 
     //监听事件
@@ -169,19 +159,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 // 拿到所有数据
                 final Map<Integer, Boolean> isCheck_delete = allInforAdapter.getMap();
 
-                Log.e("数据1",allInforAdapter.getMap()+"---------");
+
                     // 获取到条目数量，map.size = list.size,所以
                     int count = allInforAdapter.getCount();
                     // 遍历
                     for (int i = 0; i < count; i++) {
-
-
                         // 删除有两个map和list都要删除 ,计算方式
                         int position = i - (count - allInforAdapter.getCount());
                         // 判断状态 true为删除
                         if (isCheck_delete.get(i) != null && isCheck_delete.get(i)) {
-                            Log.e("数据",i+"---------");
-                            Log.e("数据",position+"---------");
+                         //   Log.e("数据",i+"---------");
+                        //    Log.e("数据",position+"---------");
 //                            new   MyDialog(MainActivity.this, "请选择要删除任务工程项", "取消", "确定", new MyDialog.DialogBtnClickListener() {
 //                        @Override
 //                        public void LeftBtnOnClick(View v) {
@@ -194,8 +182,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //
 //                    }).show();
                             // listview删除数据
-                        //    isCheck_delete.remove(i);
-                         //   allInforAdapter.removeData(position);
+                           isCheck_delete.remove(i);
+                            allInforAdapter.removeData(position);
                         }
                     }
                     allInforAdapter.notifyDataSetChanged();

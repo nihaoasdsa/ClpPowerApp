@@ -172,11 +172,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void LoginRes() {
-        String url = "http://192.168.1.112:9000/JiekouDenglu/login";
         Map<String, String> map = new HashMap<>();
         map.put("username",accountname);
         map.put("password",pwd);
-        VolleyRequestUtil.RequestPost(this, url, "dsss", map, new VolleyListenerInterface(LoginActivity.this, VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
+        VolleyRequestUtil.RequestPost(this, PowerConstants.LOGIN, "dsss", map, new VolleyListenerInterface(LoginActivity.this, VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
             @Override
             public void onMySuccess(String result) {
                 Log.e("resss", "onMySuccess: " + result);
