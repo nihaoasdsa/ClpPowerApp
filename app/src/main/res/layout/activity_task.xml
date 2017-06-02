@@ -98,7 +98,7 @@
                     android:textSize="15sp" />
 
                 <Spinner
-                    android:id="@+id/s_task_dengyadengji"
+                    android:id="@+id/s_task_dianyadengji"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></Spinner>
             </LinearLayout>
@@ -118,7 +118,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/s_task_renwuleixing"
+                    android:id="@+id/t_task_renwuleixing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></TextView>
             </LinearLayout>
@@ -198,7 +198,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/s_task_zichandanwei"
+                    android:id="@+id/t_task_zichandanwei"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></TextView>
             </LinearLayout>
@@ -218,13 +218,14 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/s_task_zichanxingzhi"
+                    android:id="@+id/t_task_zichanxingzhi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></TextView>
             </LinearLayout>
         </LinearLayout>
 
         <Button
+            android:id="@+id/b_task_save"
             android:layout_gravity="center"
             android:textSize="18sp"
             android:layout_width="wrap_content"
