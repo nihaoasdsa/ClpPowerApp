@@ -2,6 +2,7 @@ package com.example.clppowerapp.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.adapter.ClpPowerAllInforAdapter;
 import com.example.clppowerapp.bean.Bean;
@@ -91,13 +93,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             //得到LayoutInflater对象
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View vpopwindow = inflater.inflate(R.layout.popwindow_layout, null, false);
-
+         TextView   group_menu1_playgame= (TextView) vpopwindow.findViewById(R.id.group_menu1_playgame);
+            group_menu1_playgame.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MainActivity.this,TaskActivity.class);
+                    SharedPreferenceUtils.setSharedPreference("zhongya","中压",MainActivity.this);
+                    startActivity(intent);
+                }
+            });
             popupWindow = new PopupWindow(vpopwindow, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         ColorDrawable cd = new ColorDrawable(0x000000);
         popupWindow.setBackgroundDrawable(cd);
         //设置popwindow的背景颜色
-   WindowManager.LayoutParams lp =getWindow().getAttributes();
+      WindowManager.LayoutParams lp =getWindow().getAttributes();
         lp.alpha=0.4f;//0~1的数值
         getWindow().setAttributes(lp);
         //点击空白处时，隐藏掉pop窗口
