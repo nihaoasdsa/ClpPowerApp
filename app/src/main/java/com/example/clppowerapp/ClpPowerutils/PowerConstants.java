@@ -12,5 +12,6 @@ public class PowerConstants {
 
     //登录
     public static String  LOGIN=MAINURL+"JiekouDenglu/login";
-
+    //首页
+  public  static  String HOME=MAINURL+"JiekouXianLuMingXi/XianLuMingXi";
 }

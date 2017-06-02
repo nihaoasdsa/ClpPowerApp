@@ -19,14 +19,23 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.clppowerapp.ClpPowerutils.PowerConstants;
 import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.adapter.ClpPowerAllInforAdapter;
 import com.example.clppowerapp.bean.Bean;
 import com.example.clppowerapp.common.MyDialog;
 import com.example.clppowerapp.view.HeaderBar;
+import com.example.clppowerapp.view.VolleyListenerInterface;
+import com.example.clppowerapp.view.VolleyRequestUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +96,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+        HomeData();
     }
+    private void HomeData(){
+        Map<String, String> map = new HashMap<>();
+        map.put("dianya","中压");
+        VolleyRequestUtil.RequestPost(MainActivity.this, PowerConstants.HOME, "home", map, new VolleyListenerInterface(this, VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
+            @Override
+            public void onMySuccess(String result) {
+                Log.e("resss", "onMySuccess: " + result);
+                try {
+                    JSONObject object=new JSONObject(result);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onMyError(VolleyError error) {
+
+            }
+        });
+
+    }
+
+
+
     private void PopWindowData(Context context, View view){
         if (popupWindow==null) {
             //得到LayoutInflater对象
@@ -126,7 +162,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-
     //监听事件
     @Override
     public void onClick(View v) {
@@ -158,8 +193,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.ll_detele:
                 // 拿到所有数据
                 final Map<Integer, Boolean> isCheck_delete = allInforAdapter.getMap();
-
-
                     // 获取到条目数量，map.size = list.size,所以
                     int count = allInforAdapter.getCount();
                     // 遍历
