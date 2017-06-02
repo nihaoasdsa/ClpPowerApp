@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 任务按钮按下效果 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true" android:color="@color/task"></item>
+    <item android:state_selected="false" android:color="@color/default_text_night"></item>
+
+</selector>

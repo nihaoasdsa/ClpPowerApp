@@ -15,15 +15,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-
 import com.example.clppowerapp.ClpPowerutils.InputTextCheck;
 import com.example.clppowerapp.ClpPowerutils.PowerConstants;
 import com.example.clppowerapp.R;
-import com.example.clppowerapp.bean.Bean;
 import com.example.clppowerapp.view.HeaderBar;
 import com.example.clppowerapp.view.VolleyListenerInterface;
 import com.example.clppowerapp.view.VolleyRequestUtil;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +37,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     // --------登录相关------
     private String pwd = "";
     private Button login_land;
-    private  Button button_clear_account,button_clear_psw;//清除按钮
+    private Button button_clear_account, button_clear_psw;//清除按钮
     private CheckBox rem_pw;//记住密码
     private SharedPreferences sp;
- //   private RequestParams params;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,19 +48,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         init();
         doLogin();
     }
+
     private void init() {
         //获得实例对象
         sp = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
         headerView = (HeaderBar) findViewById(R.id.header);
         headerView.setTitle("登录");
         headerView.disappear();
-        et_accountname = (EditText)findViewById(R.id.account);
-        et_pwd=(EditText)findViewById(R.id.password);
-        login_land= (Button) findViewById(R.id.login_land);
-        button_clear_account=(Button) findViewById(R.id.button_clear_account);
-        button_clear_psw=(Button) findViewById(R.id.button_clear_psw);
-        rem_pw= (CheckBox) findViewById(R.id.cb_mima);
+        et_accountname = (EditText) findViewById(R.id.account);
+        et_pwd = (EditText) findViewById(R.id.password);
+        login_land = (Button) findViewById(R.id.login_land);
+        button_clear_account = (Button) findViewById(R.id.button_clear_account);
+        button_clear_psw = (Button) findViewById(R.id.button_clear_psw);
+        rem_pw = (CheckBox) findViewById(R.id.cb_mima);
         login_land.setOnClickListener(this);
         button_clear_psw.setOnClickListener(this);
         button_clear_account.setOnClickListener(this);
@@ -93,40 +90,46 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
+
     //et的监听事件
-    private TextWatcher mLoginInputWatcher =new TextWatcher() {
+    private TextWatcher mLoginInputWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
+
         @Override
         public void afterTextChanged(Editable s) {
-           if (et_accountname.getText().toString()!=null&&et_accountname.getText().toString().equals("")){
-               button_clear_account.setVisibility(View.INVISIBLE);//显示
-           }else {
-               button_clear_account.setVisibility(View.VISIBLE);//隐藏
+            if (et_accountname.getText().toString() != null && et_accountname.getText().toString().equals("")) {
+                button_clear_account.setVisibility(View.INVISIBLE);//显示
+            } else {
+                button_clear_account.setVisibility(View.VISIBLE);//隐藏
 
-           }
+            }
         }
     };
-    private TextWatcher mPassWordInputWatcher =new TextWatcher() {
+    private TextWatcher mPassWordInputWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
+
         @Override
         public void afterTextChanged(Editable s) {
-            if (et_pwd.getText().toString()!=null&&et_pwd.getText().toString().equals("")){
+            if (et_pwd.getText().toString() != null && et_pwd.getText().toString().equals("")) {
                 button_clear_psw.setVisibility(View.INVISIBLE);//隐藏
-            }else {
+            } else {
                 button_clear_psw.setVisibility(View.VISIBLE);//显示
             }
         }
     };
+
     private void doLogin() {
         accountname = et_accountname.getText().toString().trim();
         pwd = et_pwd.getText().toString().trim();
@@ -134,68 +137,71 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-           case R.id.login_land:
-               accountname = et_accountname.getText().toString().trim();
-               pwd = et_pwd.getText().toString().trim();
-               if (!accountname.equals("")&&!pwd.equals("")){
-                   //多选框
-                   if (rem_pw.isChecked()){
-                       //记住用户名和密码
-                       SharedPreferences.Editor editor = sp.edit();
-                       editor.putString("USER_NAME", accountname);
-                       editor.putString("PASSWORD", pwd);
-                       editor.commit();
+        switch (v.getId()) {
+            case R.id.login_land:
+                accountname = et_accountname.getText().toString().trim();
+                pwd = et_pwd.getText().toString().trim();
+                if (!accountname.equals("") && !pwd.equals("")) {
+                    //多选框
+                    if (rem_pw.isChecked()) {
+                        //记住用户名和密码
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("USER_NAME", accountname);
+                        editor.putString("PASSWORD", pwd);
+                        editor.commit();
 
-                   }
-                   Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                  startActivity(intent);
-                   LoginRes();
-               }else {
-                   //空状态判断
-              if (InputTextCheck.isEmpty(accountname)){
-                  Toast.makeText(LoginActivity.this, PowerConstants.Per_NOT_NULL, Toast.LENGTH_LONG).show();
+                    }
 
-                  //用户名
-              }else if (InputTextCheck.isEmpty(pwd)){
-                  Toast.makeText(LoginActivity.this, PowerConstants.PASS_WORD, Toast.LENGTH_LONG).show();
- }
-               else {
-              }
-               }
+                    LoginRes();
+                } else {
+                    //空状态判断
+                    if (InputTextCheck.isEmpty(accountname)) {
+                        Toast.makeText(LoginActivity.this, PowerConstants.Per_NOT_NULL, Toast.LENGTH_LONG).show();
 
-            break;
+                        //用户名
+                    } else if (InputTextCheck.isEmpty(pwd)) {
+                        Toast.makeText(LoginActivity.this, PowerConstants.PASS_WORD, Toast.LENGTH_LONG).show();
+                    } else {
+
+                    }
+
+                }
+
+                break;
         }
     }
-  private void LoginRes(){
-      String url="http://192.168.1.112:9000/Login/index";
-      Map<String,String> map=new HashMap<>();
 
-     VolleyRequestUtil.RequestPost(this, url, "dsss", map, new VolleyListenerInterface(LoginActivity.this,VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
-     @Override
-     public void onMySuccess(String result) {
-         Log.e("resss", "onMySuccess: "+result );
-         try {
-             JSONObject object=new JSONObject(result);
-             if (object.getString("code").equals("0")){
-                 Gson gson=new Gson();
-                 Bean bean=gson.fromJson(result,Bean.class);
-             }
-         } catch (JSONException e) {
-             e.printStackTrace();
-         }
-     }
+    private void LoginRes() {
+        String url = "http://192.168.1.112:9000/JiekouDenglu/login";
+        Map<String, String> map = new HashMap<>();
+        map.put("username",accountname);
+        map.put("password",pwd);
+        VolleyRequestUtil.RequestPost(this, url, "dsss", map, new VolleyListenerInterface(LoginActivity.this, VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
+            @Override
+            public void onMySuccess(String result) {
+                Log.e("resss", "onMySuccess: " + result);
+                try {
+                    JSONObject object=new JSONObject(result);
+                    if( object.getString("result").equals("0")){
+                        Toast.makeText(LoginActivity.this,"用户名或密码错误！",Toast.LENGTH_SHORT).show();
+                    }else if( object.getString("result").equals("1")){
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-     @Override
-     public void onMyError(VolleyError error) {
+            }
 
-     }
- });
+            @Override
+            public void onMyError(VolleyError error) {
+                Toast.makeText(LoginActivity.this,"网络错误！",Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
-
-  }
-
+    }
 
 
 }
