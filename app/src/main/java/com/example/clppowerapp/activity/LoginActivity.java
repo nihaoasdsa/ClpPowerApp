@@ -164,7 +164,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             break;
         }
     }
-
   private void LoginRes(){
       String url="http://192.168.1.112:9000/Login/index";
       Map<String,String> map=new HashMap<>();
