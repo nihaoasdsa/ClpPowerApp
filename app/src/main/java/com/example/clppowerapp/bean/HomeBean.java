@@ -24,7 +24,7 @@ public class HomeBean {
 
         private String id;
         private String mingcheng;
-        private Boolean checked;
+        private Boolean checked=false;
 
         public Boolean getChecked() {
             return checked;

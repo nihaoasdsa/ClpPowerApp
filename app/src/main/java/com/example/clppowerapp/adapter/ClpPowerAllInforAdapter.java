@@ -38,7 +38,6 @@ public class ClpPowerAllInforAdapter extends BaseAdapter {
             this.context = context;
             this.lv_data=lv_data;
             this.list=list1;
-         //   list=((MainActivity)this.context).getData();
         }
     }
 
@@ -74,9 +73,8 @@ public class ClpPowerAllInforAdapter extends BaseAdapter {
             viewHolder= (ViewHolder) convertView.getTag();
         }
         // 拿到对象
-        HomeBean.XianlumingxiBean bean = list.get(position);
         viewHolder.tv_name.setText(list.get(position).getMingcheng());
-    //    viewHolder.cb_selector.setChecked(bean.getChecked());
+        viewHolder.cb_selector.setChecked(list.get(position).getChecked());
         //listView单个条目事件监听
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

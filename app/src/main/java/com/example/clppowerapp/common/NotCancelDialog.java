@@ -11,68 +11,61 @@ import com.example.clppowerapp.ClpPowerutils.InputTextCheck;
 import com.example.clppowerapp.R;
 
 /**
- * Created by 008 on 2017/6/2 0002.
- */
-public class MyDialog extends Dialog implements View.OnClickListener {
+ *  Created by 008 on 2017/6/5 0005.
+ * */
 
 
-    public interface DialogClickListener {
-        void LeftBtnOnClick(View v);
 
+public class NotCancelDialog extends Dialog implements View.OnClickListener{
+    public interface DialogBtnClickListener {
         void RightBtnOnClick(View v);
     }
 
-    private Context c;
-    private DialogClickListener listener;
+    private Context context;
+    private DialogBtnClickListener listener;
     private TextView tv;
     private String titleStr;
     private String tvStr;
-    private String leftBtnStr;
     private String rightBtnStr;
-    private TextView title;
-    private Button btn_ok, btn_cancel;
+    private TextView tv_prompt;
+    private Button btn_ok;
 
-    /**
+/**
      * @param context
      * @param titleStr    标题
      * @param tvStr       提示内容
-     * @param leftBtnStr  左边按钮文字
-     * @param rightBtnStr 右边按钮文字
-     * @param listener    左右按钮点击事件
-     */
-    public MyDialog(Context context, String tvStr,
-                    String leftBtnStr, String rightBtnStr,
-                    DialogClickListener listener) {
+     * @param rightBtnStr 按钮文字
+     * @param listener    按钮点击事件
+
+*/
+    public NotCancelDialog(Context context, String title,String tvStr,
+                     String rightBtnStr,
+                    DialogBtnClickListener listener) {
         super(context, R.style.alertdialog);
-        this.c = context;
+        this.context = context;
         this.listener = listener;
-        this.titleStr = titleStr;
+        this.titleStr = title;
         this.tvStr = tvStr;
-        this.leftBtnStr = leftBtnStr;
         this.rightBtnStr = rightBtnStr;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_alart);
+        setContentView(R.layout.not_cancel_dialog);
         initView();
     }
 
     private void initView() {
-        btn_cancel = (Button) findViewById(R.id.btn_cancel);
-        btn_cancel.setOnClickListener(this);
-        btn_cancel.setText(leftBtnStr);
-        if (InputTextCheck.isEmpty(leftBtnStr)) {
-            btn_cancel.setVisibility(View.GONE);
-        }
-        btn_ok = (Button) findViewById(R.id.btn_ok);
+        btn_ok = (Button) findViewById(R.id.btn_ok1);
         btn_ok.setOnClickListener(this);
         btn_ok.setText(rightBtnStr);
         if (InputTextCheck.isEmpty(rightBtnStr)) {
             btn_ok.setVisibility(View.GONE);
         }
-        tv = (TextView) findViewById(R.id.tv);
+        tv = (TextView) findViewById(R.id.tv_not_name);
+        tv_prompt= (TextView) findViewById(R.id.tv_prompt);
+        tv_prompt.setText(titleStr);
         tv.setText(tvStr);
         setCancelable(false);
     }
@@ -80,14 +73,11 @@ public class MyDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_ok:
+            case R.id.btn_ok1:
                 listener.RightBtnOnClick(v);
                 dismiss();
                 break;
-            case R.id.btn_cancel:
-                listener.LeftBtnOnClick(v);
-                dismiss();
-                break;
+
         }
     }
 }
