@@ -3,17 +3,16 @@ package com.example.clppowerapp.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.view.HeaderBar;
-
 import java.util.ArrayList;
 
 //任务页面，jiangpan
@@ -30,11 +29,14 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_task);
         findId();
         init();
         listener();
+        data();
     }
+
 
     public void findId() {
         headerView = (HeaderBar) findViewById(R.id.header);
@@ -55,19 +57,14 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
         //城农网
         chengnongwang_list.add("农网");
         chengnongwang_list.add("城网");
-        chengnongwang_list.add("农村");
-        chengnongwang_list.add("城市");
-        chengnongwang_list.add("特殊边缘山区");
         ArrayAdapter<String> chengnongwang_adapter = new ArrayAdapter<String>(TaskActivity.this,
                 android.R.layout.simple_spinner_item, chengnongwang_list);
         s_task_chengnongwang.setAdapter(chengnongwang_adapter);
 
         //电压等级
-        dianyadengji_list.add("交流380V(含400V)");
-        dianyadengji_list.add("交流110KV");
-        dianyadengji_list.add("交流66KV");
-        dianyadengji_list.add("交流35KV");
         dianyadengji_list.add("交流10KV");
+        dianyadengji_list.add("交流20KV");
+        dianyadengji_list.add("交流6KV");
         ArrayAdapter<String> dengyadengji_adapter = new ArrayAdapter<String>(TaskActivity.this,
                 android.R.layout.simple_spinner_item, dianyadengji_list);
         s_task_dianyadengji.setAdapter(dengyadengji_adapter);
@@ -130,4 +127,7 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+    private void data() {
+    }
+
 }
