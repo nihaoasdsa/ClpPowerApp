@@ -14,22 +14,28 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.clppowerapp.ClpPowerutils.PowerConstants;
 import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
+
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.adapter.ClpPowerAllInforAdapter;
 import com.example.clppowerapp.bean.Bean;
+import com.example.clppowerapp.bean.HomeBean;
 import com.example.clppowerapp.common.MyDialog;
 import com.example.clppowerapp.view.HeaderBar;
 import com.example.clppowerapp.view.VolleyListenerInterface;
 import com.example.clppowerapp.view.VolleyRequestUtil;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,14 +49,17 @@ import java.util.Map;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListView lv;
     private ClpPowerAllInforAdapter allInforAdapter;
-    private List<Bean> list;
+    private List<HomeBean.XianlumingxiBean> list;
     private int checkNum;
     private LinearLayout ll_detele;//删除
     private LinearLayout ll_add;//增加
-    private TextView btn_select_all;
-   private Button cb_all;
+   private CheckBox cb_all;
     private HeaderBar headerView;
     private PopupWindow popupWindow;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,34 +75,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         lv = (ListView) findViewById(R.id.lv_infor);
         ll_add = (LinearLayout) findViewById(R.id.ll_add);
         ll_detele = (LinearLayout) findViewById(R.id.ll_detele);
-        btn_select_all = (TextView) findViewById(R.id.btn_select_all);
-        cb_all=(Button) findViewById(R.id.cb_all);
+
+        cb_all=(CheckBox) findViewById(R.id.che_all);
         ll_add.setOnClickListener(this);
         ll_detele.setOnClickListener(this);
-        btn_select_all.setOnClickListener(this);
-        // 默认显示的数据
-        List<Bean> list = new ArrayList<Bean>();
-        list.add(new Bean("新数据1"));
-        list.add(new Bean("新数据2"));
-        list.add(new Bean("新数据3"));
-        list.add(new Bean("新数据4"));
-        allInforAdapter = new ClpPowerAllInforAdapter(this);
-        allInforAdapter.setData(list);
-        lv.setAdapter(allInforAdapter);
         // 绑定listView的监听器
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /**
+         * 全选复选框设置事件监听
+         */
+        cb_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
-                // 判断view是否相同
-                if (arg1.getTag() instanceof ClpPowerAllInforAdapter.ViewHolder) {
-                    // 如果是的话，重用
-                    ClpPowerAllInforAdapter.ViewHolder holder = (ClpPowerAllInforAdapter.ViewHolder) arg1.getTag();
-                    // 自动触发
-                    holder.cb_selector.toggle();
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (list.size()!=0) {//判断列表中是否有数据
+                    if (isChecked) {
+                        for (int i = 0; i < list.size(); i++) {
+                            list.get(i).setChecked(true);
+                        }
+                        //通知适配器更新UI
+                        allInforAdapter.notifyDataSetChanged();
+                    } else {
+                        for (int i = 0; i < list.size(); i++) {
+                            list.get(i).setChecked(false);
+                        }
+                        //通知适配器更新UI
+                        allInforAdapter.notifyDataSetChanged();
+                    }
+                }else{//若列表中没有数据则隐藏全选复选框
+                    cb_all.setVisibility(View.GONE);
                 }
-
             }
         });
         HomeData();
@@ -101,12 +110,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void HomeData(){
         Map<String, String> map = new HashMap<>();
         map.put("dianya","中压");
+      map.put("id",SharedPreferenceUtils.getSharePreenceKeybyString(MainActivity.this,"id"));
         VolleyRequestUtil.RequestPost(MainActivity.this, PowerConstants.HOME, "home", map, new VolleyListenerInterface(this, VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
             @Override
             public void onMySuccess(String result) {
-                Log.e("resss", "onMySuccess: " + result);
+
                 try {
                     JSONObject object=new JSONObject(result);
+                    if (object.getString("xianlumingxi")!=null){
+                        Gson gson=new Gson();
+                        HomeBean homeBean=gson.fromJson(result,HomeBean.class);
+                        List<HomeBean.XianlumingxiBean> list=homeBean.getXianlumingxi();
+
+                        for (int i=0;i<list.size();i++){
+                            Log.e("resss", "onMySuccess: " + list.get(i).getMingcheng());
+                        }
+                        allInforAdapter = new ClpPowerAllInforAdapter(MainActivity.this,lv,list);
+
+                        lv.setAdapter(allInforAdapter);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -121,9 +143,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
 
     }
-
-
-
+    //返回数据给MyAdapter使用
+  //  public  List<HomeBean.XianlumingxiBean> getData(){
+   //     return this.list;
+   // }
     private void PopWindowData(Context context, View view){
         if (popupWindow==null) {
             //得到LayoutInflater对象
@@ -143,7 +166,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ColorDrawable cd = new ColorDrawable(0x000000);
         popupWindow.setBackgroundDrawable(cd);
         //设置popwindow的背景颜色
-      WindowManager.LayoutParams lp =getWindow().getAttributes();
+       WindowManager.LayoutParams lp =getWindow().getAttributes();
         lp.alpha=0.4f;//0~1的数值
         getWindow().setAttributes(lp);
         //点击空白处时，隐藏掉pop窗口
@@ -171,55 +194,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 PopWindowData(MainActivity.this,v);
                 break;
             // 全选数据
-            case R.id.btn_select_all:
-                // 全选——全不选
-                Map<Integer, Boolean> isCheck = allInforAdapter.getMap();
-                if (btn_select_all.getText().equals("全选")) {
-                    allInforAdapter.initCheck(true);
-                    Log.e("全选数据",isCheck+"");
-                    // 通知刷新适配器
-                    allInforAdapter.notifyDataSetChanged();
-                    btn_select_all.setText("全不选");
-                    cb_all.setBackgroundDrawable(getResources().getDrawable(R.mipmap.check_true));
-                } else if (btn_select_all.getText().equals("全不选")) {
-                    allInforAdapter.initCheck(false);
-                    // 通知刷新适配器
-                    allInforAdapter.notifyDataSetChanged();
-                    btn_select_all.setText("全选");
-                    cb_all.setBackgroundDrawable(getResources().getDrawable(R.mipmap.check_false));
-                }
-                break;
+
             // 删除数据
             case R.id.ll_detele:
-                // 拿到所有数据
-                final Map<Integer, Boolean> isCheck_delete = allInforAdapter.getMap();
-                    // 获取到条目数量，map.size = list.size,所以
-                    int count = allInforAdapter.getCount();
-                    // 遍历
-                    for (int i = 0; i < count; i++) {
-                        // 删除有两个map和list都要删除 ,计算方式
-                        int position = i - (count - allInforAdapter.getCount());
-                        // 判断状态 true为删除
-                        if (isCheck_delete.get(i) != null && isCheck_delete.get(i)) {
-                         //   Log.e("数据",i+"---------");
-                        //    Log.e("数据",position+"---------");
-//                            new   MyDialog(MainActivity.this, "请选择要删除任务工程项", "取消", "确定", new MyDialog.DialogBtnClickListener() {
-//                        @Override
-//                        public void LeftBtnOnClick(View v) {
-//
-//                        }
-//                        @Override
-//                        public void RightBtnOnClick(View v) {
-//                        }
-//
-//
-//                    }).show();
-                            // listview删除数据
-                           isCheck_delete.remove(i);
-                            allInforAdapter.removeData(position);
-                        }
+                //创建一个要删除内容的集合，不能直接在数据源data集合中直接进行操作，否则会报异常
+                List<HomeBean.XianlumingxiBean> deleSelect = new ArrayList<>();
+
+                //把选中的条目要删除的条目放在deleSelect这个集合中
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getChecked()) {
+                        deleSelect.add(list.get(i));
                     }
+                }
+                //判断用户是否选中要删除的数据及是否有数据
+                if (deleSelect.size() != 0 && list.size() != 0) {
+                    //从数据源data中删除数据
+                    list.removeAll(deleSelect);
+                    //把deleSelect集合中的数据清空
+                    deleSelect.clear();
+                    //把全选复选框设置为false
+                    cb_all.setChecked(false);
+                    //通知适配器更新UI
                     allInforAdapter.notifyDataSetChanged();
+                } else if (list.size() == 0) {
+                    Toast.makeText(MainActivity.this, "没有要删除的数据", Toast.LENGTH_SHORT).show();
+                } else if (deleSelect.size() == 0) {
+                    Toast.makeText(MainActivity.this, "请选中要删除的数据", Toast.LENGTH_SHORT).show();
+                }
 
 
                 break;

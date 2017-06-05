@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.clppowerapp.ClpPowerutils.InputTextCheck;
 import com.example.clppowerapp.ClpPowerutils.PowerConstants;
+import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.view.HeaderBar;
 import com.example.clppowerapp.view.VolleyListenerInterface;
@@ -185,6 +186,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         Toast.makeText(LoginActivity.this,"用户名或密码错误！",Toast.LENGTH_SHORT).show();
                     }else if( object.getString("result").equals("1")){
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        SharedPreferenceUtils.setSharedPreference("id",object.getString("id"),LoginActivity.this);
                         startActivity(intent);
                     }
                 } catch (JSONException e) {
