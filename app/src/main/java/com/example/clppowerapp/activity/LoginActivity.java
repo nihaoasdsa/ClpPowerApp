@@ -1,5 +1,6 @@
 package com.example.clppowerapp.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +41,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Button button_clear_account, button_clear_psw;//清除按钮
     private CheckBox rem_pw;//记住密码
     private SharedPreferences sp;
-
+    /**
+     * 用于加载的进度跳
+     */
+    private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +155,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         editor.commit();
 
                     }
-
+                    dialog = ProgressDialog.show(LoginActivity.this, null,
+                            "正在登录...", true, true);
                     LoginRes();
                 } else {
                     //空状态判断
@@ -184,6 +189,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     if( object.getString("result").equals("0")){
                         Toast.makeText(LoginActivity.this,"用户名或密码错误！",Toast.LENGTH_SHORT).show();
                     }else if( object.getString("result").equals("1")){
+                        dialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
@@ -195,7 +201,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onMyError(VolleyError error) {
-                Toast.makeText(LoginActivity.this,"网络错误！",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                Toast.makeText(LoginActivity.this,"服务器错误！",Toast.LENGTH_SHORT).show();
             }
         });
 

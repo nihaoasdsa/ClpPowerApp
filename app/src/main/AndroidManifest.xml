@@ -25,7 +25,9 @@
             android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TaskActivity"></activity>
+        <activity android:name=".activity.TaskActivity" />
+        <activity android:name=".activity.DeviceTypeActivity" />
+        <activity android:name=".activity.SearchActivity"></activity>
     </application>
 
 </manifest>
