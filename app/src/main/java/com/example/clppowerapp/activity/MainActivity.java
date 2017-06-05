@@ -32,6 +32,7 @@ import com.example.clppowerapp.adapter.ClpPowerAllInforAdapter;
 import com.example.clppowerapp.bean.Bean;
 import com.example.clppowerapp.bean.HomeBean;
 import com.example.clppowerapp.common.MyDialog;
+import com.example.clppowerapp.common.NotCancelDialog;
 import com.example.clppowerapp.view.HeaderBar;
 import com.example.clppowerapp.view.VolleyListenerInterface;
 import com.example.clppowerapp.view.VolleyRequestUtil;
@@ -56,9 +57,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
    private CheckBox cb_all;
     private HeaderBar headerView;
     private PopupWindow popupWindow;
-
-
-
+   private  List<HomeBean.XianlumingxiBean> data=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +78,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         cb_all=(CheckBox) findViewById(R.id.che_all);
         ll_add.setOnClickListener(this);
         ll_detele.setOnClickListener(this);
-        // 绑定listView的监听器
+        HomeData();
         /**
          * 全选复选框设置事件监听
          */
         cb_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (list.size()!=0) {//判断列表中是否有数据
+                if (data.size()!=0) {//判断列表中是否有数据
                     if (isChecked) {
-                        for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setChecked(true);
+                        for (int i = 0; i < data.size(); i++) {
+                            data.get(i).setChecked(true);
                         }
                         //通知适配器更新UI
                         allInforAdapter.notifyDataSetChanged();
                     } else {
-                        for (int i = 0; i < list.size(); i++) {
-                            list.get(i).setChecked(false);
+                        for (int i = 0; i < data.size(); i++) {
+                            data.get(i).setChecked(false);
                         }
                         //通知适配器更新UI
                         allInforAdapter.notifyDataSetChanged();
@@ -105,24 +104,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
-        HomeData();
     }
-    private void HomeData(){
+    private void HomeData() {
         Map<String, String> map = new HashMap<>();
-        map.put("dianya","中压");
-      map.put("id",SharedPreferenceUtils.getSharePreenceKeybyString(MainActivity.this,"id"));
-        VolleyRequestUtil.RequestPost(MainActivity.this, PowerConstants.HOME, "home", map, new VolleyListenerInterface(this, VolleyListenerInterface.mListener,VolleyListenerInterface.mErrorListener) {
+        map.put("dianya", "中压");
+        map.put("id", SharedPreferenceUtils.getSharePreenceKeybyString(MainActivity.this, "id"));
+        VolleyRequestUtil.RequestPost(MainActivity.this, PowerConstants.HOME, "home", map, new VolleyListenerInterface(this, VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
             @Override
             public void onMySuccess(String result) {
-
                 try {
-                    JSONObject object=new JSONObject(result);
-                    if (object.getString("xianlumingxi")!=null){
-                        Gson gson=new Gson();
-                        HomeBean homeBean=gson.fromJson(result,HomeBean.class);
-                        List<HomeBean.XianlumingxiBean> list=homeBean.getXianlumingxi();
-                        allInforAdapter = new ClpPowerAllInforAdapter(MainActivity.this,lv,list);
+                    JSONObject object = new JSONObject(result);
+                    if (object.getString("xianlumingxi") != null) {
+                        Gson gson = new Gson();
+                        HomeBean homeBean = gson.fromJson(result, HomeBean.class);
+                        data = homeBean.getXianlumingxi();
+                        allInforAdapter = new ClpPowerAllInforAdapter(MainActivity.this, lv, data);
                         lv.setAdapter(allInforAdapter);
+                    }else {
+                        Toast.makeText(MainActivity.this,PowerConstants.NOTHING,Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -132,15 +131,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onMyError(VolleyError error) {
-
+                Toast.makeText(MainActivity.this,PowerConstants.NET_ERROR,Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-    //返回数据给MyAdapter使用
-  //  public  List<HomeBean.XianlumingxiBean> getData(){
-   //     return this.list;
-   // }
     private void PopWindowData(Context context, View view){
         if (popupWindow==null) {
             //得到LayoutInflater对象
@@ -195,25 +189,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 List<HomeBean.XianlumingxiBean> deleSelect = new ArrayList<>();
 
                 //把选中的条目要删除的条目放在deleSelect这个集合中
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getChecked()) {
-                        deleSelect.add(list.get(i));
+                for (int i = 0; i < data.size(); i++) {
+                    if (data.get(i).getChecked()) {
+                        deleSelect.add(data.get(i));
                     }
                 }
                 //判断用户是否选中要删除的数据及是否有数据
-                if (deleSelect.size() != 0 && list.size() != 0) {
+                if (deleSelect.size() != 0 && data.size() != 0) {
+
                     //从数据源data中删除数据
-                    list.removeAll(deleSelect);
+                    data.removeAll(deleSelect);
                     //把deleSelect集合中的数据清空
                     deleSelect.clear();
                     //把全选复选框设置为false
                     cb_all.setChecked(false);
                     //通知适配器更新UI
                     allInforAdapter.notifyDataSetChanged();
-                } else if (list.size() == 0) {
+                } else if (data.size() == 0) {
                     Toast.makeText(MainActivity.this, "没有要删除的数据", Toast.LENGTH_SHORT).show();
                 } else if (deleSelect.size() == 0) {
-                    Toast.makeText(MainActivity.this, "请选中要删除的数据", Toast.LENGTH_SHORT).show();
+                    ShowDialog();
                 }
 
 
@@ -221,10 +216,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
     }
-    //删除选择的数据
-    private void Delete(){
+       private  void ShowDialog(){
+        //判断用户是否选中要删除的数据及是否有数据
+           new MyDialog(MainActivity.this, "请选中要删选的工程任务", "取消", "确定", new MyDialog.DialogBtnClickListener() {
+               @Override
+               public void LeftBtnOnClick(View v) {
 
+               }
 
+               @Override
+               public void RightBtnOnClick(View v) {
 
+               }
+           });
+//            new NotCancelDialog(MainActivity.this, "请选中要删选的工程任务", "确定", new NotCancelDialog.DialogBtnClickListener() {
+//
+//                @Override
+//                public void RightBtnOnClick(View v) {
+//
+//                }
+//            });
     }
 }

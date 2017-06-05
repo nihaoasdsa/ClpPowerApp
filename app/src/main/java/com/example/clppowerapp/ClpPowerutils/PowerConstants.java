@@ -6,8 +6,8 @@ package com.example.clppowerapp.ClpPowerutils;
 public class PowerConstants {
     public static String Per_NOT_NULL = "用户名不能为空！";
     public static String PASS_WORD="密码不能为空！";
-    public static String NET_ERROR="网络错误";
-    public static String KEY_SUCCESS="成功";
+    public static String NET_ERROR="网络错误！";
+    public static String NOTHING="没有数据！";
 //外网主入口url
     public static String MAINURL="http://192.168.1.112:9000/";
     //登录
