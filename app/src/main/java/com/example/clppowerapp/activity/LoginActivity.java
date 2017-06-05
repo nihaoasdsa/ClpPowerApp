@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.clppowerapp.ClpPowerutils.InputTextCheck;
 import com.example.clppowerapp.ClpPowerutils.PowerConstants;
+import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
 import com.example.clppowerapp.R;
 import com.example.clppowerapp.view.HeaderBar;
 import com.example.clppowerapp.view.VolleyListenerInterface;
@@ -191,6 +192,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }else if( object.getString("result").equals("1")){
                         dialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        SharedPreferenceUtils.setSharedPreference("id",object.getString("id"),LoginActivity.this);
                         startActivity(intent);
                     }
                 } catch (JSONException e) {
@@ -201,6 +203,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onMyError(VolleyError error) {
+                Toast.makeText(LoginActivity.this,PowerConstants.NET_ERROR,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 Toast.makeText(LoginActivity.this,"服务器错误！",Toast.LENGTH_SHORT).show();
             }

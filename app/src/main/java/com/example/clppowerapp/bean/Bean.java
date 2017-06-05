@@ -1,20 +1,27 @@
 package com.example.clppowerapp.bean;
 
 public class Bean {
+	private String name;
+	private Boolean checked;
+	public Bean(String name, String phone,Boolean checked) {
+		this.name = name;
 
-	private String title;
-
-	// 构造方法
-	public Bean(String title) {
-		super();
-		this.title = title;
+		this.checked = checked;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Boolean getChecked() {
+		return checked;
+	}
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+
+
 }
