@@ -76,7 +76,7 @@ public class ClpPowerAllInforAdapter extends BaseAdapter {
         // 拿到对象
         HomeBean.XianlumingxiBean bean = list.get(position);
         viewHolder.tv_name.setText(list.get(position).getMingcheng());
-        viewHolder.cb_selector.setChecked(bean.getChecked());
+    //    viewHolder.cb_selector.setChecked(bean.getChecked());
         //listView单个条目事件监听
         lv_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

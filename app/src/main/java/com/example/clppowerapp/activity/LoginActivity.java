@@ -197,7 +197,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onMyError(VolleyError error) {
-                Toast.makeText(LoginActivity.this,"网络错误！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,PowerConstants.NET_ERROR,Toast.LENGTH_SHORT).show();
             }
         });
 

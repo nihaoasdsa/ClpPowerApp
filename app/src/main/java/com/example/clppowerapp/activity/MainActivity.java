@@ -121,15 +121,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         Gson gson=new Gson();
                         HomeBean homeBean=gson.fromJson(result,HomeBean.class);
                         List<HomeBean.XianlumingxiBean> list=homeBean.getXianlumingxi();
-
-                        for (int i=0;i<list.size();i++){
-                            Log.e("resss", "onMySuccess: " + list.get(i).getMingcheng());
-                        }
                         allInforAdapter = new ClpPowerAllInforAdapter(MainActivity.this,lv,list);
-
                         lv.setAdapter(allInforAdapter);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
