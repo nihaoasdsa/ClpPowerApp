@@ -205,7 +205,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onMyError(VolleyError error) {
                 Toast.makeText(LoginActivity.this,PowerConstants.NET_ERROR,Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
-                Toast.makeText(LoginActivity.this,"服务器错误！",Toast.LENGTH_SHORT).show();
             }
         });
 

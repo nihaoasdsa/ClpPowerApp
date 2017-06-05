@@ -179,12 +179,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             // 添加数据
             case R.id.ll_add:
-                PopWindowData(MainActivity.this,v);
+              PopWindowData(MainActivity.this,v);
                 break;
             // 全选数据
 
             // 删除数据
             case R.id.ll_detele:
+
                 //创建一个要删除内容的集合，不能直接在数据源data集合中直接进行操作，否则会报异常
                 List<HomeBean.XianlumingxiBean> deleSelect = new ArrayList<>();
 
@@ -208,7 +209,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else if (data.size() == 0) {
                     Toast.makeText(MainActivity.this, "没有要删除的数据", Toast.LENGTH_SHORT).show();
                 } else if (deleSelect.size() == 0) {
-                    ShowDialog();
+ShowDialog();
                 }
 
 
@@ -217,24 +218,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
        private  void ShowDialog(){
-        //判断用户是否选中要删除的数据及是否有数据
-           new MyDialog(MainActivity.this, "请选中要删选的工程任务", "取消", "确定", new MyDialog.DialogBtnClickListener() {
-               @Override
-               public void LeftBtnOnClick(View v) {
 
-               }
+            new NotCancelDialog(MainActivity.this,"提示", "请选中要删选的工程任务", "确定", new NotCancelDialog.DialogBtnClickListener() {
 
-               @Override
-               public void RightBtnOnClick(View v) {
+                @Override
+                public void RightBtnOnClick(View v) {
 
-               }
-           });
-//            new NotCancelDialog(MainActivity.this, "请选中要删选的工程任务", "确定", new NotCancelDialog.DialogBtnClickListener() {
-//
-//                @Override
-//                public void RightBtnOnClick(View v) {
-//
-//                }
-//            });
+                }
+            }).show();
     }
 }

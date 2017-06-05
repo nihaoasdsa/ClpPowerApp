@@ -16,14 +16,14 @@ import com.example.clppowerapp.R;
 public class MyDialog extends Dialog implements View.OnClickListener {
 
 
-    public interface DialogBtnClickListener {
+    public interface DialogClickListener {
         void LeftBtnOnClick(View v);
 
         void RightBtnOnClick(View v);
     }
 
-    private Context context;
-    private DialogBtnClickListener listener;
+    private Context c;
+    private DialogClickListener listener;
     private TextView tv;
     private String titleStr;
     private String tvStr;
@@ -42,9 +42,9 @@ public class MyDialog extends Dialog implements View.OnClickListener {
      */
     public MyDialog(Context context, String tvStr,
                     String leftBtnStr, String rightBtnStr,
-                    DialogBtnClickListener listener) {
+                    DialogClickListener listener) {
         super(context, R.style.alertdialog);
-        this.context = context;
+        this.c = context;
         this.listener = listener;
         this.titleStr = titleStr;
         this.tvStr = tvStr;
