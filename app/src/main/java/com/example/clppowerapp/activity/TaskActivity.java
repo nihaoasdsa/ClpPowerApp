@@ -10,22 +10,38 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.example.clppowerapp.ClpPowerutils.PowerConstants;
 import com.example.clppowerapp.ClpPowerutils.SharedPreferenceUtils;
 import com.example.clppowerapp.R;
+import com.example.clppowerapp.bean.TaskYunxingdanweiBean;
 import com.example.clppowerapp.view.HeaderBar;
+import com.example.clppowerapp.view.VolleyListenerInterface;
+import com.example.clppowerapp.view.VolleyRequestUtil;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //任务页面，jiangpan
-public class TaskActivity extends Activity implements View.OnClickListener ,AdapterView.OnItemSelectedListener{
+public class TaskActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private HeaderBar headerView;
     private Spinner s_task_chengnongwang, s_task_dianyadengji, s_task_yunxingdanwei, s_task_weihubanzu;
     private String s_chengnongwang, s_dianyadengji, s_yunxingdanwei, s_weihubanzu;
     private TextView t_task_renwuleixing, t_task_zichandanwei, t_task_zichanxingzhi;
-    private ArrayList<String> chengnongwang_list = new ArrayList<String>();//城农网数据
-    private ArrayList<String> dianyadengji_list = new ArrayList<String>();//电压等级数据
-    private ArrayList<String> yunxingdanwei_list = new ArrayList<String>();//运行单位数据
-    private ArrayList<String> weihubanzu_list = new ArrayList<String>();//维护班组数据
+    private List<String> chengnongwang_list = new ArrayList<String>();//城农网数据
+    private List<String> dianyadengji_list = new ArrayList<String>();//电压等级数据
+    private List<String> yunxingdanwei_list = new ArrayList<String>();//运行单位数据
+    private List<String> weihubanzu_list = new ArrayList<String>();//维护班组数据
     private Button b_task_save;
+    private String danwei;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +50,6 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
         findId();
         init();
         listener();
-        data();
     }
 
 
@@ -47,11 +62,11 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
         t_task_renwuleixing = (TextView) findViewById(R.id.t_task_renwuleixing);
         t_task_zichandanwei = (TextView) findViewById(R.id.t_task_zichandanwei);
         t_task_zichanxingzhi = (TextView) findViewById(R.id.t_task_zichanxingzhi);
-        b_task_save=(Button)findViewById(R.id.b_task_save);
+        b_task_save = (Button) findViewById(R.id.b_task_save);
     }
 
     public void init() {
-        String renwuleixing=SharedPreferenceUtils.getSharePreenceKeybyString(TaskActivity.this,"zhongya");
+        String renwuleixing = SharedPreferenceUtils.getSharePreenceKeybyString(TaskActivity.this, "zhongya");
         t_task_renwuleixing.setText(renwuleixing);
         headerView.setTitle("任务");
         //城农网
@@ -70,14 +85,7 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
         s_task_dianyadengji.setAdapter(dengyadengji_adapter);
 
         //运行单位
-        yunxingdanwei_list.add("国网通化市城郊供电公司（农网）");
-        yunxingdanwei_list.add("国网辉南县供电公司（农网）");
-        yunxingdanwei_list.add("国网柳河县供电公司（农网）");
-        yunxingdanwei_list.add("国网梅河口市供电公司（农网）");
-        yunxingdanwei_list.add("国网集安市供电公司（农网）");
-        ArrayAdapter<String> yunxingdanwei_adapter = new ArrayAdapter<String>(TaskActivity.this,
-                android.R.layout.simple_spinner_item, yunxingdanwei_list);
-        s_task_yunxingdanwei.setAdapter(yunxingdanwei_adapter);
+        yunxindanwei_data();
 
         //维护班组
         weihubanzu_list.add("二道江供电所");
@@ -90,17 +98,19 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
         s_task_weihubanzu.setAdapter(weihubanzu_adapter);
 
     }
-    public void listener(){
+
+    public void listener() {
         b_task_save.setOnClickListener(this);
         s_task_chengnongwang.setOnItemSelectedListener(this);
         s_task_dianyadengji.setOnItemSelectedListener(this);
         s_task_yunxingdanwei.setOnItemSelectedListener(this);
         s_task_weihubanzu.setOnItemSelectedListener(this);
     }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.b_task_save:
-                Toast.makeText(TaskActivity.this,"数据还未保存，是否确定退出",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskActivity.this, "数据还未保存，是否确定退出", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -127,7 +137,41 @@ public class TaskActivity extends Activity implements View.OnClickListener ,Adap
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
-    private void data() {
+
+    private void yunxindanwei_data() {
+        Map<String, String> map = new HashMap<>();
+//        map.put("dianya","中压");
+//        map.put("id",SharedPreferenceUtils.getSharePreenceKeybyString(TaskActivity.this,"id"));
+        VolleyRequestUtil.RequestPost(TaskActivity.this, PowerConstants.TASK_YUNXINGDANWEI, "task_yunxingdanwei", map, new VolleyListenerInterface(this, VolleyListenerInterface.mListener, VolleyListenerInterface.mErrorListener) {
+            @Override
+            public void onMySuccess(String result) {
+
+                try {
+                    JSONObject object = new JSONObject(result);
+                    if (object.getString("yunxingdanwei") != null) {
+                        Gson gson = new Gson();
+                        TaskYunxingdanweiBean taskYunxingdanweiBean = gson.fromJson(result, TaskYunxingdanweiBean.class);
+                        List<TaskYunxingdanweiBean.YunxingdanweiBean> list = taskYunxingdanweiBean.getYunxingdanwei();
+                        for (int i = 0; i < list.size(); i++) {
+                            danwei = list.get(i).getDanwei();
+                            yunxingdanwei_list.add(danwei);
+                            ArrayAdapter<String> yunxingdanwei_adapter = new ArrayAdapter<String>(TaskActivity.this,
+                                    android.R.layout.simple_spinner_item, yunxingdanwei_list);
+                            s_task_yunxingdanwei.setAdapter(yunxingdanwei_adapter);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onMyError(VolleyError error) {
+
+            }
+        });
+
     }
 
 }
